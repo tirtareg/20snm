@@ -15,8 +15,9 @@ Sys.setlocale("LC_TIME", "IND")
 
 #library(readxl)
 #db <- read.csv("https://github.com/registrasi-untirta/snmptn/raw/master/snmptn.csv")
+library(readxl)
 
-db <- read.csv("G:/My Drive/#PMB/2020/01_SNMPTN/Dashboard/snmptn.csv")
+db <- read_excel("G:/My Drive/#PMB/2020/01_SNMPTN/Dashboard/snmptn.xlsx")
 
 library(tidyverse)
 
@@ -240,9 +241,9 @@ data <- db %>%
   group_by(fakultas, prodi) %>%
   summarize(pendaftar = max(peminat),
             lulus = n(),
-            sudah = sum(registrasi == "registrasi"),
+            sudah = sum(registrasi == "registrasi", na.rm = T),
             belum = lulus - sudah,
-            diterima = sum(nim == "diterima"))
+            diterima = sum(nim == "diterima", na.rm = T))
 
 data <- data %>%
   group_by(fakultas) %>%
@@ -289,9 +290,9 @@ data <- db %>%
   group_by(fakultas, prodi) %>%
   summarize(pendaftar = max(peminat),
             lulus = n(),
-            sudah = sum(registrasi == "registrasi"),
+            sudah = sum(registrasi == "registrasi", na.rm = T),
             belum = lulus - sudah,
-            diterima = sum(nim == "diterima"))
+            diterima = sum(nim == "diterima", na.rm = T))
 data <- data[, -1]
 names(data) <- c("Fakultas/Program Studi", "Pendaftar", "Lulus", "Ya", "Tidak", "Diterima")
 data <- adorn_totals(data,where = "row", name = "Total")
